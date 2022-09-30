@@ -26,6 +26,15 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
+- name: Port Tasks
+  ansible.builtin.import_tasks: "subtasks/ports.yml"
+
+- name: Passwd Tasks
+  ansible.builtin.import_tasks: "subtasks/passwd.yml"
+
+- name: File Tasks
+  ansible.builtin.import_tasks: "subtasks/files.yml"
+
 - name: Download 98-themepark
   ansible.builtin.get_url:
     url: "https://raw.githubusercontent.com/GilbN/theme.park/master/docker-mods/rutorrent/root/etc/cont-init.d/98-themepark"
@@ -35,18 +44,5 @@
     mode: "0770"
     force: true
 
-- name: Check if existing config file exists
-  ansible.builtin.stat:
-    path: "{{ rutorrent_paths_rtorrent_rc_location }}"
-  register: rutorrent_paths_rtorrent_rc_location_stat
-
-- name: Pre-Install Tasks
-  ansible.builtin.import_tasks: "subtasks/pre-install/main.yml"
-  when: not continuous_integration
-
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-
-- name: Post-Install Tasks
-  ansible.builtin.import_tasks: "subtasks/post-install/main.yml"
-  when: (not continuous_integration) and (not rutorrent_paths_rtorrent_rc_location_stat.stat.exists)
