@@ -58,6 +58,8 @@ openldap_docker_envs_default:
   LDAP_ADMIN_PASSWORD: "{{ user.pass }}"
   LDAP_CONFIG_PASSWORD: "{{ user.pass }}"
   LDAP_TLS: "false"
+  LDAP_OPENLDAP_UID: "{{ uid }}"
+  LDAP_OPENLDAP_GID: "{{ gid }}"
 openldap_docker_envs_custom: {}
 openldap_docker_envs: "{{ openldap_docker_envs_default
                           | combine(openldap_docker_envs_custom) }}"
