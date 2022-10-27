@@ -52,20 +52,20 @@ webauthn:
 
 authentication_backend:
   ldap:
-      implementation: custom
-      url: ldap://openldap
-      start_tls: false
-      tls:
-        skip_verify: true
-        minimum_version: TLS1.2
-      base_dn: dc={{ authelia_domain.stdout }},dc={{ authelia_tld.stdout }}
-      additional_users_dn: ou=people
-      users_filter: (&({username_attribute}={input})(objectClass=person))
-      additional_groups_dn: ou=groups
-      groups_filter: (&(uniquemember={dn})(objectclass=groupOfUniqueNames))
-      group_name_attribute: cn
-      user: cn=admin,dc={{ authelia_domain.stdout }},dc={{ authelia_tld.stdout }}
-      password: {{ user.pass }}
+    implementation: custom
+    url: ldap://openldap
+    start_tls: false
+    tls:
+      skip_verify: true
+      minimum_version: TLS1.2
+    base_dn: dc={{ authelia_domain.stdout }},dc={{ authelia_tld.stdout }}
+    additional_users_dn: ou=people
+    users_filter: (&({username_attribute}={input})(objectClass=person))
+    additional_groups_dn: ou=groups
+    groups_filter: (&(uniquemember={dn})(objectclass=groupOfUniqueNames))
+    group_name_attribute: cn
+    user: cn=admin,dc={{ authelia_domain.stdout }},dc={{ authelia_tld.stdout }}
+    password: {{ user.pass }}
 
 #
 # Read more at https://www.authelia.com/docs/configuration/access-control.html
