@@ -68,6 +68,18 @@
               endscript
               create 644 {{ user.name }} {{ user.name }}
           }
+      - path: "authelia"
+        content: |
+          /opt/authelia/*.log {
+              rotate 5
+              size {{ authelia_max_log_size }}
+              missingok
+              notifempty
+              postrotate
+                docker kill --signal="USR1" authelia
+              endscript
+              create 644 {{ user.name }} {{ user.name }}
+          }
 
 - name: Logrotate | Add items to '/etc/logrotate.d'
   ansible.builtin.blockinfile:
